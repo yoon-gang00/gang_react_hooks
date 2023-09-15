@@ -3,18 +3,32 @@ import ReactDOM from "react-dom";
 
 import "./styles.css";
 
-function App() {
-  const [item, setitem] = useState(1);
-  const incrementItem = () => setitem(item + 1);
-  const decrementItem = () => setitem(item - 1);
+const useInput = (initialValue, validator) => {
+  const [value, setValue] = useState(initialValue);
+  const onChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    let willUpdate = true;
+    if (typeof validator === "function") {
+      willUpdate = validator(value);
+    }
+    if (willUpdate) {
+      setValue(value);
+    }
+  };
+  return { value, onChange };
+};
+const App = () => {
+  const maxLen = (value) => !value.includes("@");
+  const name = useInput("Mr.", maxLen);
+  const email = useInput("@");
   return (
     <div className="App">
-      <h1>Hello {item}</h1>
-      <h2>Start editing to see some magic happen!</h2>
-      <button onClick={incrementItem}>increment</button>
-      <button onClick={decrementItem}>decrement</button>
+      <h1>Hello</h1>
+      <input placeholder="Name" {...name} />
     </div>
   );
-}
+};
 const rootElement = document.getElementById("root");
 ReactDOM.render(<App />, rootElement);
