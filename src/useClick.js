@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 const useClick = (onClick) => {
-  if(typeof onClick !== "function"){
+  if (typeof onClick !== "function") {
     return;
   }
   const element = useRef();
@@ -10,15 +10,15 @@ const useClick = (onClick) => {
       element.current.addEventListener("click", onClick);
     }
     return () => {
-        if(element.current){
-          element.current.removeEventListener("click", onClick);
-        }
+      if (element.current) {
+        element.current.removeEventListener("click", onClick);
+      }
     };
   }, []);
   return element;
 };
 const App = () => {
-  const sayHello =() => console.log("say hello")
+  const sayHello = () => console.log("say hello");
   const title = useClick(sayHello);
   return (
     <div className="App">
@@ -28,4 +28,3 @@ const App = () => {
 };
 const rootElement = document.getElementById("root");
 ReactDOM.render(<App />, rootElement);
-
